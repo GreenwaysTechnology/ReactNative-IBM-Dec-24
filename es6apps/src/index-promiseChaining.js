@@ -36,24 +36,41 @@ const showDashboard = status => {
 }
 
 
-async function main() {
-    //then and catch
+function main() {
+    //callback style
+    // getUser((user) => {
+    //     //call login
+    //     login(user, (status) => {
+    //         //call dashboard
+    //         showDashboard(status, (page) => {
+    //             console.log(page)
+    //         }, (err) => {
+    //             console.log(err)
+    //         })
+    //     }, (err) => {
+    //         console.log(err)
+    //     })
+    // }, (err) => {
+    //     console.log(err)
+    // })
+
     // getUser()
-    //     .then(user => login(user))
-    //     .then(status => showDashboard(status))
-    //     .then(res => console.log(res))
+    //     .then(user => {
+    //         return login(user)
+    //     })
+    //     .then(status => {
+    //         return showDashboard(status)
+    //     })
+    //     .then(res => {
+    //         console.log(res)
+    //     })
     //     .catch(err => console.log(err))
-    try {
-        //sync way of writing async code
-        //call promise apis
-        const user = await getUser()
-        const status = await login(user)
-        const dashboard = await showDashboard(status)
-        console.log(user, status, dashboard)
-    }
-    catch (err) {
-        console.log(err)
-    }
+
+    getUser()
+        .then(user => login(user))
+        .then(status => showDashboard(status))
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
 
 }
 main()
