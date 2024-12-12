@@ -333,7 +333,7 @@ Architecture tech stack for dom programming
 
 
 Plain JS
-			 Application(dom) -plain js
+		       Application(dom) -plain js
 			     |
 			 Javascript Engine
 			      |
@@ -575,7 +575,7 @@ JSX compilation model:
 	----------------------------------------- -- Excution cycles Starts
   Runtime : React Engine  compiled code feed into react engine
 			|
-		     Execute compiled js code : function calls
+		 Execute compiled js code : function calls
 			|
 	     create virtual Object tree (in browser V-dom)
 		        |
@@ -642,18 +642,6 @@ react-dom.js
 
    	    Components can be created any one or mixed way  style.
     	 "functional Pattern" is more popular and recommended pattern....
-
-...................................................................................
-			Component Creational patterns
-...................................................................................
-
-
-1.variable pattern
-2.functional pattern
-3.es 6 class pattern
-
-     Components can be created any one or mixed way  style.
-    "functional Pattern" is more popular and recommended pattern....
 
 
 
@@ -881,7 +869,174 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(<Welcome />)
 
-................................................................................................................................................................
+..............................................................................................
+			Component Composition
+............................................................................................
+
+The large UI is broken down into smaller UI, later then composed.
+
+Eg:
+import { createRoot } from "react-dom/client"
+
+//Header,Footer,Main
+const Header = () => {
+    return <header>
+        <h1>Header</h1>
+    </header>
+}
+const Footer = () => {
+    return <footer>
+        <h2>Footer</h2>
+    </footer>
+}
+const Main = () => {
+    return <div>
+        <section>
+            <p>React is best javascript lib</p>
+        </section>
+        <section>
+            <p>Reac Native is javascript lib used to build Native Mobile Apps</p>
+        </section>
+    </div>
+}
+
+const Page = () => {
+    return <>
+        <Header />
+        <Main />
+        <Footer />
+    </>
+}
+
+const App = () => {
+    return <Page />
+}
+
+
+createRoot(document.getElementById('root')).render(<App />)
+............
+
+
+.....................................................................................
+		  Component Composition and Modularity
+.....................................................................................
+Every Component will go into separate folders and files, through es 6 modules you can import export components..
+
+https://legacy.reactjs.org/docs/faq-structure.html
+
+Is there a recommended way to structure React projects?
+
+React doesn’t have opinions on how you put files into folders. That said there are a few common approaches popular in the ecosystem you may want to consider.
+
+
+Grouping by features or routes
+
+common/
+  Avatar.js
+  Avatar.css
+  APIUtils.js
+  APIUtils.test.js
+feed/
+  index.js
+  Feed.js
+  Feed.css
+  FeedStory.js
+  FeedStory.test.js
+  FeedAPI.js
+profile/
+  index.js
+  Profile.js
+  ProfileHeader.js
+  ProfileHeader.css
+  ProfileAPI.js
+
+Grouping by file type
+api/
+  APIUtils.js
+  APIUtils.test.js
+  ProfileAPI.js
+  UserAPI.js
+components/
+  Avatar.js
+  Avatar.css
+  Feed.js
+  Feed.css
+  FeedStory.js
+  FeedStory.test.js
+  Profile.js
+  ProfileHeader.js
+  ProfileHeader.css
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+root.render(<Heading></Heading>)
+
+Component File Naming Convention:
+
+FileName Must start with Capital letter.
+Feed.jsx
+
+eg:
+
+src/header/Header.jsx
+
+const Header = () => {
+    return <header>
+        <h1>Header</h1>
+    </header>
+}
+export { Header }
+
+src/footer/Footer.jsx
+
+
+const Footer = () => {
+    return <footer>
+        <h2>Footer</h2>
+    </footer>
+}
+export { Footer }
+
+src/main/Main.jsx
+const Main = () => {
+    return <div>
+        <section>
+            <p>React is best javascript lib</p>
+        </section>
+        <section>
+            <p>Reac Native is javascript lib used to build Native Mobile Apps</p>
+        </section>
+    </div>
+}
+export { Main }
+
+src/page/Page.jsx
+import { Header } from "../header/Header"
+import { Footer } from "../footer/Footer"
+import { Main } from "../main/Main"
+
+const Page = () => {
+    return <>
+        <Header />
+        <Main />
+        <Footer />
+    </>
+}
+export { Page }
+
+src/App.jsx
+import { Page } from "./page/Page"
+
+const App = () => {
+  return <Page />
+}
+export default App
+
+src/main.jsx
+import { createRoot } from "react-dom/client"
+import App from "./App"
+
+createRoot(document.getElementById('root')).render(<App />)
 
 
 
