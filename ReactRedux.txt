@@ -1196,8 +1196,134 @@ export default function App() {
 }
 
 
+.................................................................................
+					         Default Props
+................................................................................
+
+component can receive more no number of properties, all properties we dont need it, if you want to use only specific properties , then we can use default props
+
+Having defaults for any component when you design it.
 
 
 
+Use case : default props and props args destructuring;
+
+//default props: assinging default values , incase if you dont pass any prop value
+
+export const User = ({ id = 0, userName = 'userName',
+    address: { city } = { city: 'City' }, status = false, email = "email@example.com" }) => <div>
+        <h1>Id : {id}</h1>
+        <h2>Name : {userName}</h2>
+        <h2>Email: {email}</h2>
+        <h3>City : {city}</h3>
+        <h3>Status : {status ? "Available" : "Not Available"}</h3>
+    </div>
+
+export default function App() {
+    return <div>
+        <User />
+
+        <User id={2} userName="Murugan"
+            email="murugan@gmail.com" address={{ city: 'Chennai' }} status={true} />
+
+        <User  address={{ city: 'Delhi' }} status={false} />
+
+    </div>
+}
+
+UseCase : If props are not destructured, how to initalize the default props
 
 
+
+//default props: assinging default values , incase if you dont pass any prop value
+
+export const User = (props) => <div>
+    <h1>Id : {props.id}</h1>
+    <h2>Name : {props.userName}</h2>
+    <h2>Email: {props.email}</h2>
+    <h3>City : {props.address.city}</h3>
+    <h3>Status : {props.status ? "Available" : "Not Available"}</h3>
+</div>
+
+//Default Props
+User.defaultProps = {
+    id: 0,
+    userName: 'User Name',
+    email: 'admin@example.com',
+    status: false,
+    address: {
+        city: 'City'
+    }
+}
+
+export default function App() {
+    return <div>
+        <User />
+
+        <User id={2} userName="Murugan"
+            email="murugan@gmail.com" address={{ city: 'Chennai' }} status={true} />
+
+        <User address={{ city: 'Delhi' }} status={false} />
+
+    </div>
+}
+............................................................................................
+ 		Props and Spread Notation: Property Rethrow
+		 Forwarding Props with jsx Spread Notation
+.............................................................................................
+
+//passing each and every propery manually.
+
+// export const User = (props) => {
+//     // forwarding the props to User Details
+//     return <UserDetails id={props.id}
+//         userName={props.userName} email={props.email}
+//         address={props.address} status={props.status}
+//     />
+// }
+//the above code can be simpilifed using spread notation (es 7 feature)
+// ... (spread notation)
+
+export const User = (props) => {
+    // forwarding the props to User Details
+    return <UserDetails  {...props} title="User Details" />
+}
+
+const UserDetails = props => <div>
+    <h1>{props.title}</h1>
+    <h1>Id : {props.id}</h1>
+    <h2>Name : {props.userName}</h2>
+    <h2>Email: {props.email}</h2>
+    <h3>City : {props.address.city}</h3>
+    <h3>Status : {props.status ? "Available" : "Not Available"}</h3>
+</div>
+
+
+export default function App() {
+    return <div>
+        <User id={2} userName="Murugan"
+            email="murugan@gmail.com" address={{ city: 'Chennai' }} status={true} />
+    </div>
+}
+
+Another example:
+
+// const Button = props => {
+//     return <button>{props.label}</button>
+// }
+
+
+const Button = ({label}) => {
+    return <button>{label}</button>
+}
+
+export default function App() {
+    const saveButtonProps = {
+        label: 'Save'
+    }
+    return <div>
+        {/* <Button label = {saveButtonProps.label}  /> */}
+        <Button {...saveButtonProps} />
+        <Button {...{ label: 'FindAll' }} />
+    </div>
+}
