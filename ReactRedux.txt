@@ -1039,8 +1039,161 @@ import App from "./App"
 createRoot(document.getElementById('root')).render(<App />)
 
 
+.................................................................................
+			 Data binding
+.................................................................................
+
+Create  new project:
+
+>npm create vite@latest data-binding
+
+As of now we have seen only how to create static UI - (only HTML)
+
+How to represent data?
+->primitives - string,numbers,boolean
+->objects - object,arrays
 
 
+How to bind data?
+  {variable} {expression}
+ 
+  {a} {fun()} {10*2} {isHidden ? 'Show':'Hide'} 
+
+
+Simple Databinding:
+
+const User = () => {
+    //variables
+    const id = 1
+    const userName = 'Subramanian Murugan'
+    const email = 'sasubramanian_m@hotmail.com'
+    const address = {
+        city: 'Coimbatore'
+    }
+    const status = true
+
+    return <div>
+        <h1>User info</h1>
+        <h3>Id : {id}</h3>
+        <h3>Name : {userName}</h3>
+        <h4>Email : {email}</h4>
+        <h4>City : {address.city}</h4>
+        <h4>Status : {status ? "Available" : "Not Available"}</h4>
+    </div>
+
+}
+export { User }
+
+If you look at the code above,data is declared within component is tightly coupled.
+
+When you think about component you have to about resuablity.
+
+What if i want to show different user information? How to create component in resuable manner?
+
+     ->Properties
+.................................................................................
+			Data binding patterns
+
+1.props pattern /property pattern
+2.state pattern
+
+How to create resuable component?
+
+ Component must be paramertized or configurable....
+
+You know very well component is function, just js function, when you think about function, you can pass parameter....
+
+
+Use case: invoke function and pass data
+........................................
+
+src/User.jsx
+
+const User = (id, userName, email, address, status) => {
+    return <div>
+        <h1>Id : {id}</h1>
+        <h2>Name : {userName}</h2>
+        <h2>Email: {email}</h2>
+        <h3>City : {address.city}</h3>
+        <h3>Status : {status ? "Available" : "Not Available"}</h3>
+    </div>
+}
+
+export default function App() {
+    return <div>
+        {User(1, 'Subramanian Murugan', 'subu@gmail.com', { city: 'Coimbatore' }, true)}
+        {User(2, 'Murugan', 'murugan@gmail.com', { city: 'Coimbatore' }, true)}
+    </div>
+}
+
+if you look at this code, we are using imperative way of calling function {User()},we use declarative syntax <User/> 
+
+.................................................................................
+			Passing props and receiving props with declrative pattern
+................................................................................
+
+//here props is just variable name, which can be any thing like abc
+//what is value of props? props will have always object, what ever properties we pass
+//from the parent component(App) , which is merged as one single object
+export const User = (props) => {
+    console.log(props)
+    return <div>
+        <h1>Id : {props.id}</h1>
+        <h2>Name : {props.userName}</h2>
+        <h2>Email: {props.email}</h2>
+        <h3>City : {props.address.city}</h3>
+        <h3>Status : {props.status ? "Available" : "Not Available"}</h3>
+    </div>
+}
+
+export default function App() {
+    return <div>
+        <User id={1} userName="Subramanian Murugan"
+            email="subu@gmail.com" address={{ city: 'Coimbatore' }} status={true} />
+
+        <User id={2} userName="Murugan"
+            email="murugan@gmail.com" address={{ city: 'Chennai' }} status={true} />
+
+        <User id={3} userName="Ram"
+            email="ram@gmail.com" address={{ city: 'Delhi' }} status={true} />
+
+    </div>
+}
+..............................................................................................................................................
+		Adding feature to the User Component -Image-Avatar
+		 Component Composition and Props
+...............................................................................................................................................
+
+src/avatar/Avatar.jsx
+export const Avatar = ({ profilePic }) => <img src={profilePic} alt="ProfilePic" />
+
+
+src/App.jsx
+import { Avatar } from "./avatar/Avatar"
+
+//Avatar
+export const Address = ({ city }) => <div>
+    <h3>City {city}</h3>
+</div>
+export const UserStatus = ({ status }) => <h3>Status : {status ? "Available" : "Not Available"}</h3>
+
+export const User = ({ id, profilePic, userName, address: { city }, status, email }) => <div>
+    <Avatar profilePic={profilePic} />
+    <h1>Id : {id}</h1>
+    <h2>Name : {userName}</h2>
+    <h2>Email: {email}</h2>
+    <UserStatus status={status} />
+    <Address city={city} />
+</div>
+
+
+export default function App() {
+    const profilePic = 'https://imgur.com/1bX5QH6.jpg'
+    return <div>
+        <User profilePic={profilePic} id={1} userName="Subramanian Murugan"
+            email="subu@gmail.com" address={{ city: 'Coimbatore' }} status={true} />
+    </div>
+}
 
 
 
