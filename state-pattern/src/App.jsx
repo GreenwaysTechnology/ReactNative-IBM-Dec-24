@@ -1,64 +1,68 @@
-import React from 'react'
-import { produce } from 'immer'
+import { useEffect } from "react"
+import { useState } from "react"
+import { produce } from "immer"
 
-class Products extends React.Component {
-
-    state = {
+const Products = props => {
+    //state 
+    const [state, setState] = useState({
         products: [],
-        error: null,
-        isLoading: false
-    }
-    //api call after ui is ready: any async task must go inside componentDidMount
-
-    async componentDidMount() {
-        //api calls
-        const url = `https://fakestoreapi.com/products`
+        isLoading: false, //to show spinner
+        error: null
+    })
+    async function getProducts() {
         try {
+            const url = `https://api.escuelajs.co/api/v1/products`
             const response = await fetch(url)
             const products = await response.json()
-            console.log(products)
-            //show the data in ui
-            this.setState(produce(this.state, draft => {
+            setState(produce(state, (draft) => {
                 draft.products = products
                 draft.isLoading = true
             }))
-
-        } catch (err) {
-            //error handling 
-            this.setState(produce(this.state, (draft) => {
-                draft.error = err
+        }
+        catch (err) {
+            setState(produce(state, (draft) => {
+                draft.err = err
                 draft.isLoading = true
             }))
         }
     }
 
-    render() {
-        const { error, isLoading, products } = this.state
-        //conditional rendering
-        if (error) {
-            return <h1>Something went Wrong : {error.message}</h1>
-        } else if (!isLoading) {
-            return <h1>Loading....</h1>
-        } else {
-            return <>
-                <h1>Products</h1>
-                <hr />
-                <div>
-                    {
-                        products.map(product => {
-                            return <section key={product.id}>
-                                <img src={product.image} height={200} width={200} />
-                                <h1>{product.title} </h1>
-                                <p>{product.description}</p>
-                                <h5>{product.price}</h5>
-                            </section>
-                        })
-                    }
-                </div>
-            </>
-        }
+    useEffect(() => {
+        //api call
+        getProducts()
+    }, [])
 
+
+    //conditional rendering: how to use if...else..elseif
+    if (state.error) {
+        return <div>
+            <h1>Error : {error.message}</h1>
+        </div>
+    } else if (!state.isLoading) {
+        return <h2>Loading...</h2>
+    } else {
+        return <div>
+            <h1>Products</h1>
+            <hr />
+            <div>
+                {
+                    state.products.map(product => {
+                        return <section key={product.id}>
+                            <img src={product.category.image} height={200} width={200} />
+                            <h1>{product.title} </h1>
+                            <p>{product.description}</p>
+                            <h5>{product.price}</h5>
+                        </section>
+                    })
+                }
+            </div>
+        </div>
     }
 }
 
-export default Products
+export default function App() {
+
+    return <div>
+        <Products />
+    </div>
+}
