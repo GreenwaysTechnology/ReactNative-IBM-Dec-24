@@ -67,13 +67,7 @@ How to build mobile native apps in portable way using same javascript technology
 ......................................................................................................
 			   That is birth of React Native.
 ....................................................................................
- React Native Architecture
-....................................................................................
-......................................................................................................
-			   					That is birth of React Native.
-....................................................................................
- React Native Architecture
-....................................................................................
+React Native Architecture
 
 
 React native applications are written using react(js) core principles
@@ -122,3 +116,417 @@ How react native apps are executed?  Execution Model:
 All views are executed by platform runtimes eg: android by art.
 All javascript is executed by Hermes Js engine.
 https://hermesengine.dev/
+.............................................................................................
+			 How to create React Native Project
+..............................................................................................
+There are two ways to create React Native Project.
+
+1.Using React native community project
+
+ If you are already familiar with mobile development, you may want to use React Native CLI.
+ It requires Xcode or Android Studio to get started. If you already have one of these tools installed, you should be able to get up and running within a few minutes. If they are not installed, you should expect to spend about an hour installing and configuring them.
+
+Open source, you dont need to use any copyrights.
+It offers only limitted features like basic Userinterface components like Button,View,List,Image.
+if you want to communicate with native platform services like camera,location,contacts, React Native core team has not provided any apis or compoents.
+You have to depend on community only...
+
+YOu can select platform services via react native community web site
+
+-Community -https://reactnative.directory/
+
+2.Using Expo Framework
+
+Expo Work flow:
+...............
+What is expo?
+
+ Expo is a framework and a platform for universal React applications. It is a set of tools and services built around React Native and native platforms that help you develop, build, deploy, and quickly iterate on iOS, Android, and web apps from the same JavaScript/TypeScript codebase.
+
+..............................................................................................
+Project Setup:
+
+.....................................................................................
+			ReactNative Project
+....................................................................................
+
+You can setup either using React Native cli or EXPO Cli.
+
+
+React Native cli:
+................
+
+Windows-Android:
+
+Requirements:
+
+Node js,
+React Native command line interface,
+JDK,
+Android Studio
+
+https://reactnative.dev/docs/environment-setup?guide=native&os=windows&platform=android
+
+>npx @react-native-community/cli@latest init <ProjectName>
+
+When you create project and building project
+
+1.you should create project in powershell or bash shell with admin rights.
+
+
+npx @react-native-community/cli@latest init  MyReactNativeApp
+
+√ Downloading template
+√ Copying template
+√ Processing template
+√ Installing dependencies
+√ Initializing Git repository
+
+
+  Run instructions for Android:
+    • Have an Android emulator running (quickest way to get started), or a device connected.
+    • cd "G:\IBM\2024\Dec\ReactNative\native\MyReactNativeApp" && npx react-native run-android
+
+  Run instructions for Windows:
+    • See https://aka.ms/ReactNativeGuideWindows for the latest up-to-date instructions.
+
+How to run react native project either for android or ios
+
+Way 1
+npx react-native run-android 
+npx react-native run-ios - if your app is ios app
+
+Way 2
+npm run android
+npm run ios
+
+Way 3
+npm start
+ios - i
+android - a
+..........................................................................................
+				 Project Exploration
+...........................................................................................
+
+Any js application can be written using "typescript" as well.
+
+Typescript is programming language which extends the features of js, typescript is super set of js.
+
+What is drawback of js?
+ Type system.
+js is static typed language, means we cant enforce the type system like java, c,C++
+
+int a =10
+a="hello" - compile time error.
+
+let a =10
+a="hello" - no compile time error.
+
+What if i want strong typing in js? 
+  That is brith of typescript.
+
+Typescript is strongly typed programming language, which was created on the top of core ES 6.
+
+if you want strong strong typing in your js apps,you can write type script code...
+
+typescript cant be executed directly on any js runtime, so we have to compile into plain js.
+
+Hello.ts -->compile--if any compile error-fix it-- Hello.js ---Run
+
+React Native cli project by default is enabled with typescript integration.
+  
+Component Extension:
+
+App.jsx -  Js based React
+App.tsx - Ts based React 
+
+
+Files:
+
+tsconfig.json
+   Typescript compiler configuration
+
+package.json
+
+  "scripts": {
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "lint": "eslint .",
+    "start": "react-native start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "react": "18.3.1",
+    "react-native": "0.76.5"
+  },
+
+metro.config.js
+const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
+
+const config = {};
+
+module.exports = mergeConfig(getDefaultConfig(__dirname), config);
+...........................................................................................
+app.json
+ This file is used to supply name of the application and display name which is shown as a lable when we move app to device or emulator
+
+{
+  "name": "MyReactNativeApp",
+  "displayName": "MyReactNativeApp"
+}
+
+babel.config.js
+  This is compiler configuration file
+module.exports = {
+  presets: ['module:@react-native/babel-preset'],
+};
+............................................................................................
+			 Application Entry File
+.............................................................................................
+
+index.js
+
+import {AppRegistry} from 'react-native';
+import App from './App';
+import {name as appName} from './app.json';
+
+
+//JS Entry Point to React Native app
+AppRegistry.registerComponent(appName, () => App);
+
+App.tsx or App.jsx
+  Root Component 
+
+
+Folders:
+........
+node_modules
+   Contains libs and framework code
+.bundle 
+   contains bundled executable code
+
+Andorid
+
+
+IOS
+
+..............................................................................................
+			  Getting started with Coding
+.............................................................................................
+
+React Native Applicaiton is pure react application, so we follow all react features like components,props,state,listeners,hooks etc...
+
+React Native does not support HTML as markup.
+
+React Native is built around built in React Native Elements called components
+
+React Native apps are collection of components(From react native core,third party components,expo components).
+
+Core Components and APIs
+........................
+Basic Components
+User Interface
+List Views
+Android-specific
+iOS-specific
+Others
+
+Basic Components:
+ Text,View,Image,TextInput,StyleSheet,ScrollView etc...
+
+User Interface Components
+ Button,Switch
+
+ListViews:
+ FlatList
+ SectionList
+
+
+src/App.jsx
+import { Text, View } from "react-native"
+
+function App() {
+    return <View>
+         <Text>Hello React Native!</Text>
+    </View>
+}
+export default App
+.............................................................................................
+			 React core features in React Native
+.............................................................................................
+
+1.Component composition.
+
+src/components/profile/Profile.jsx
+
+import { Text, View } from "react-native"
+
+const Profile = props => {
+    return <View>
+        <Text>Profile</Text>
+    </View>
+}
+export { Profile };
+
+src/App.jsx
+import { View } from "react-native"
+import { Profile } from "./components/profile/Profile"
+
+function App() {
+    return <View>
+         <Profile/>
+    </View>
+}
+export default App
+
+props:
+......
+
+src/App.jsx
+import { View } from "react-native"
+import { Profile } from "./components/profile/Profile"
+
+function App() {
+
+    return <View>
+        <Profile data={{ id: 1, name: 'Subramanian Murugan', status:true }} />
+    </View>
+}
+export default App
+
+src/components/profile/Profile.jsx
+import { Text, View } from "react-native"
+
+const Profile = props => {
+    console.log(props)
+    const { id, name, status } = props.data
+    return <View>
+        <Text>Profile</Text>
+        <Text>Id : {id}</Text>
+        <Text>Name : {name}</Text>
+        <Text>Status :{status ? "Available" : "UnAvailable"}</Text>
+    </View>
+}
+export { Profile };
+
+............................................................................................
+
+State,Hooks:
+...........
+
+src/counter/Counter.jsx
+import { useState } from "react"
+import { Button, Text } from "react-native"
+
+
+const Counter = props => {
+    const [value, setValue] = useState(0)
+    return <>
+        <Text> Counter : {value}</Text>
+        <Button onPress={() => {
+            setValue(value + 1)
+        }} title="+" />
+        <Text></Text>
+        <Button onPress={() => {
+            setValue(value - 1)
+        }} title="-" />
+    </>
+}
+export { Counter }
+
+import { View } from "react-native"
+import { Counter } from "./components/counter/Counter"
+
+function App() {
+
+    return <View style={{ marginLeft: 50, marginTop:50, padding: 50 }}>
+        <Counter/>
+    </View>
+}
+export default App
+...........................................................................................
+
+Immerjs, Objects,Hooks:
+.......................
+
+npm install immer
+
+src/components/review/Review.jsx
+import { produce } from "immer"
+import { useState } from "react"
+import { Button, Text } from "react-native"
+
+const Review = props => {
+    const [value, setValue] = useState({ increment: 0, decrement: 0 })
+    return <>
+        <Text> Like : {value.increment} Dislike: {value.decrement}</Text>
+        {/* <Button onPress={() => {
+            setValue({ ...value, increment: value.increment + 1 })
+        }} title="Like" />
+        <Text></Text>
+        <Button onPress={() => {
+            setValue({ ...value, decrement: value.decrement + 1 })
+        }} title="Dislike" /> */}
+        <Button onPress={() => {
+            setValue(produce(value, draft => {
+                draft.decrement += 1
+            }))
+        }} title="Like" />
+        <Text></Text>
+        <Button onPress={() => {
+            setValue(produce(value, draft => {
+                draft.decrement += 1
+            }))
+        }} title="Dislike" />
+    </>
+}
+export { Review }
+...
+
+src/App.jsx
+import { View } from "react-native"
+import { Review } from "./components/review/Review"
+
+function App() {
+
+    return <View style={{ marginLeft: 50, marginTop:50, padding: 50 }}>
+        <Review/>
+    </View>
+}
+export default App
+..............................................................................................
+				Styling
+..............................................................................................
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
