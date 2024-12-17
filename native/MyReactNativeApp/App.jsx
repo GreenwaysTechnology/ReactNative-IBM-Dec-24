@@ -1,10 +1,22 @@
-import { View } from "react-native"
-import { Review } from "./components/review/Review"
+import { StyleSheet, Text, View } from "react-native";
 
 function App() {
-
-    return <View style={{ marginLeft: 50, marginTop:50, padding: 50 }}>
-        <Review/>
+    return <View style={styles.box}>
+        <Text style={styles.label}>Hello</Text>
+        <Text style={styles.label}>Hello</Text>
+        <Text style={styles.label}>Hello</Text>
+        <Text style={styles.label}>Hello</Text>
+        <Text style={{ color: 'blue' }}>Hello</Text>
     </View>
 }
-export default App
+
+const styles = StyleSheet.create({
+    box: {
+        backgroundColor: 'pink',
+        height: 900
+    },
+    label: {
+        color: 'red'
+    }
+})
+export default App;

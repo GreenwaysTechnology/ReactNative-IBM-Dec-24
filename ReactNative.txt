@@ -498,6 +498,115 @@ export default App
 				Styling
 ..............................................................................................
 
+Since React Native is portable application  or platform independant, so we need common design language to design User interface.
+
+React Native uses "CSS" as common language for both IOS and Android.
+
+CSS is web styling language , how to use that language?
+
+CSS can be used in two ways
+
+1.Using .css extension in web
+
+#container {
+  margin:0
+  background-color:'pink'
+}
+<div class="container">
+</div>
+
+2.Using javascript via code in web
+
+<div id="container">
+
+</div>
+document.getElelementById("container").style.margin =0
+
+In web : React and css:
+........................
+
+Using css language directly:
+
+function App(){ 
+  return <div className="container">
+	  
+    <div>
+}
+
+Using css via javascript (inline)
+.................................
+
+function App(){ 
+  return <div style={}>
+	  
+    <div>
+}
+const styles = {
+  backgroundColor:'pink'
+  margin:10
+}
+https://www.w3schools.com/jsref/dom_obj_style.asp
+
+React Native and Style:
+
+  React native supports js style of writting styles
+
+After React Native code compilation, which converts platform specific styling.....
+...................................................................................
+			StyleSheet - Component
+..................................................................................
+
+A StyleSheet is an abstraction similar to CSS StyleSheets
+
+How to declare style?
+
+StyleSheet object has method called "create" method
+
+StyleSheet.create({
+ styleProperty: propvalue,
+ stylePropery:{
+    styleProp:propValue
+ }
+});
+
+StyleSheet must follow css javascript property rules..
+....
+
+import { StyleSheet, Text, View } from "react-native";
+
+function App() {
+    return <View style={styles.box}>
+        <Text style={styles.label}>Hello</Text>
+        <Text style={styles.label}>Hello</Text>
+        <Text style={styles.label}>Hello</Text>
+        <Text style={styles.label}>Hello</Text>
+        <Text style={{ color: 'blue' }}>Hello</Text>
+    </View>
+
+}
+
+export const styles = StyleSheet.create({
+    box: {
+        backgroundColor: 'pink',
+        height: 900
+    },
+    label: {
+        color: 'red'
+    }
+})
+export default App;
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
