@@ -1380,10 +1380,7 @@ const styles = StyleSheet.create({
 
 Task :
  Convert existing Calculator into redux
-............................................................................................
-				React Native,Redux Thunk, API Call
-...........................................................................................
-.......................................................................................................
+.........................................................................................
 				React Native,Redux Thunk, API Call
 ....................................................................................................
 import { View, StyleSheet, Text } from "react-native";
@@ -1582,10 +1579,6 @@ const styles = StyleSheet.create({
 				        List Views
 ...................................................................................
 
-...................................................................................
-				        List Views
-...................................................................................
-
 React Native provides a suit of components for presenting lists of data, Generally, You will want to use "FlatList or Section List"
 
 
@@ -1647,7 +1640,7 @@ const styles = StyleSheet.create({
         color: 'blue'
     }
 })
-.......................................................................................................
+..............................................................................................
 				Item Selection
 .....................................................................................................
 import { View, StyleSheet, Text, Alert, FlatList } from "react-native";
@@ -1837,7 +1830,7 @@ const styles = StyleSheet.create({
     }
 })
 ....................................................................................
-			                      Select Item with Touchable Features
+			       Select Item with Touchable Features
 .....................................................................................
 
 In order to add touchable features , react native offers many components
@@ -2112,18 +2105,1532 @@ const styles = StyleSheet.create({
 export default App;
 .............................................................................................
 
-1.Navigation.
-     React Native Navigation lib
-   Stack Navigation
-   Tab Navigation
+.....................................................................................	
+				  React Native Navigation
+....................................................................................
+			
+How navigation works?
 
-2.Native Components
-   Location - Map
-   Camera 
-   Storage
-     AsyncStorage
-     SqlliteDb
-  
+In a web browser, you can link to different pages using an anchor (<a>) tag. When the user clicks on a link, the URL is pushed to the browser history stack.
+
+ When the user presses the back button, the browser pops the item from the top of the history stack, so the active page is now the previously visited page.
+
+React Native doesn't have a built-in idea of a global history stack like a web browser does -- this is where React Navigation enters the story.
+
+React Native Navigation's stack navigator provides a way for your app to transition between screens and manage navigation history.
+
+If your app uses only one stack navigator then it is conceptually similar to how a web browser handles navigation state - your app pushes and pops items from the navigation stack as users interact with it, and this results in the user seeing different screens. 
+
+A key difference between how this works in a web browser and in React Navigation is that React Navigation's stack navigator provides the gestures and animations that you would expect on Android and iOS when navigating between routes in the stack.
+
+Core concepts in React Native Navigation:
+.........................................
+
+1.Screen
+   =>It is a special component,which only display Userinterface, not having any logic      It acts container.
+2.Component
+   => It is component having biz logic and ui logic...
+
+
+Getting Started:
+
+create new project:
+
+npx react-native@latest init NavigationApp
+
+in case your project is in "React Native cli"
+in case your project is in "Expo work flow"
+
+Common for both projects:
+
+npm install @react-navigation/native @react-navigation/native-stack
+
+For Bare React Native project:
+
+npm install react-native-screens react-native-safe-area-context
+
+
+For Expo Managed Projects
+npx expo install react-native-screens react-native-safe-area-context
+
+React Navigation container or parent object is "Navigation Container".
+
+...................................................................................
+				Multi screen-Page
+.................................................................................
+
+Types of navigation:
+1.screen to screen - stack navigation -  @react-navigation/stack
+2.Tab - tab based navivation.  @react-navigation/bottom-tabs
+3.Drawer -Drawer navigation.   @react-navigation/drawer
+
+
+Stack Navigation:
+
+Moving among screens: How to move from one screen to another screen?
+
+StackNavigator :
+ 
+ Object used to navigate between screen.
+
+ Stack Object used to  represent stack navigator.
+
+import { createNativeStackNavigator } from "@react-navigation/native-stack";//create 
+Stack Object
+const Stack  = createNativeStackNavigator();
+console.log(Stack)
+
+Object {
+  "Navigator": [Function StackNavigator],
+  "Screen": [Function Screen],
+}
+
+
+1.createStackNavigator is a function that returns an object containing 2 properties: Screen and Navigator.
+2.Both of them are React components used for configuring the navigator.
+The Navigator should contain Screen elements as its children to define the configuration for routes.
+
+3.NavigationContainer is a component which manages our navigation tree and contains the navigation state. This component must wrap all navigators structure. Usually, we'd render this component at the root of our app, which is usually the component exported from App.js.
+
+
+1.createStackNavigator is a function that returns an object containing 2 properties: Screen and Navigator.
+2.Both of them are React components used for configuring the navigator.
+The Navigator should contain Screen elements as its children to define the configuration for routes.
+
+3.NavigationContainer is a component which manages our navigation tree and contains the navigation state. This component must wrap all navigators structure. Usually, we'd render this component at the root of our app, which is usually the component exported from App.js.
+
+
+Use case : Single Screen:
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Text, View, StyleSheet } from 'react-native'
+
+//create Object of Stack
+const Stack = createNativeStackNavigator()
+
+//Screen Components
+const Home = () => {
+    return <View style={styles.container}>
+        <Text>Home Screen</Text>
+    </View>
+}
+
+
+function App() {
+    return <NavigationContainer>
+        {/* Type of Navigation :Stack or Tab or Drawer Navigation */}
+        {/* Stack Navigation */}
+        <Stack.Navigator>
+            {/* Define screens */}
+            <Stack.Screen name="Home" component={Home} />
+        </Stack.Navigator>
+    </NavigationContainer>
+
+}
+export default App;
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    }
+})
+
+Multi Screen:
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Text, View, StyleSheet } from 'react-native'
+import { Screen } from "react-native-screens";
+
+//create Object of Stack
+const Stack = createNativeStackNavigator()
+
+//Screen Components
+const Home = () => {
+    return <View style={styles.container}>
+        <Text>Home Screen</Text>
+    </View>
+}
+
+const Profile = () => {
+    return <View style={styles.container}>
+        <Text>Profile Screen</Text>
+    </View>
+}
+
+function App() {
+    return <NavigationContainer>
+        {/* Type of Navigation :Stack or Tab or Drawer Navigation */}
+        {/* Stack Navigation */}
+        <Stack.Navigator>
+            {/* Define screens */}
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="Profile" component={Profile}/>
+        </Stack.Navigator>
+    </NavigationContainer>
+
+}
+export default App;
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    }
+})
+
+..................................................................................
+			   How to move between screens
+..................................................................................
+
+Navigating to a new screen​
+
+Every Component receives information from the parent component as a prop.
+When component is rendered via route,React Navigator injects an object called "Navigation" Object as prop to every Component
+
+
+Props;
+Object {
+  "navigation": Object {
+    "addListener": [Function addListener],
+    "canGoBack": [Function canGoBack],
+    "dispatch": [Function dispatch],
+    "getId": [Function getId],
+    "getParent": [Function getParent],
+    "getState": [Function anonymous],
+    "goBack": [Function anonymous],
+    "isFocused": [Function isFocused],
+    "navigate": [Function anonymous],
+    "pop": [Function anonymous],
+    "popToTop": [Function anonymous],
+    "push": [Function anonymous],
+    "removeListener": [Function removeListener],
+    "replace": [Function anonymous],
+    "reset": [Function anonymous],
+    "setOptions": [Function setOptions],
+    "setParams": [Function anonymous],
+  },
+  "route": Object {
+    "key": "Home-V-z_dGCJfqcHgNXxzxRGK",
+    "name": "Home",
+    "params": undefined,
+  },
+
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Text, View, StyleSheet, Button } from 'react-native'
+
+//create Object of Stack
+const Stack = createNativeStackNavigator()
+
+//Screen Components
+const Home = (props) => {
+
+    const onMove = () => {
+        //move to Profile
+        props.navigation.navigate("Profile")
+    }
+    return <View style={styles.container}>
+        <Text>Home Screen</Text>
+        <Button title="GoToProfile" onPress={onMove} />
+    </View>
+}
+
+const Profile = (prop) => {
+    return <View style={styles.container}>
+        <Text>Profile Screen</Text>
+    </View>
+}
+
+function App() {
+    return <NavigationContainer>
+        {/* Type of Navigation :Stack or Tab or Drawer Navigation */}
+        {/* Stack Navigation */}
+        <Stack.Navigator>
+            {/* Define screens */}
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="Profile" component={Profile} />
+        </Stack.Navigator>
+    </NavigationContainer>
+
+}
+export default App;
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    }
+})
+..............................................................................................
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Text, View, StyleSheet, Button } from 'react-native'
+
+//create Object of Stack
+const Stack = createNativeStackNavigator()
+
+//Screen Components
+const Home = (props) => {
+
+    const onMove = () => {
+        //move to Profile
+        props.navigation.navigate("Profile", { id: 1, name: 'Subramanian', status: true })
+    }
+    return <View style={styles.container}>
+        <Text>Home Screen</Text>
+        <Button title="GoToProfile" onPress={onMove} />
+    </View>
+}
+
+const Profile = (props) => {
+    const profile = props.route.params
+    return <View style={styles.container}>
+        <Text>Profile Screen</Text>
+        <Text>Id : {profile.id}</Text>
+        <Text>Name : {profile.name}</Text>
+        <Text>Status : {profile.status ? "Available" : "Not Available"}</Text>
+
+
+    </View>
+}
+
+function App() {
+    return <NavigationContainer>
+        {/* Type of Navigation :Stack or Tab or Drawer Navigation */}
+        {/* Stack Navigation */}
+        <Stack.Navigator>
+            {/* Define screens */}
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="Profile" component={Profile} />
+        </Stack.Navigator>
+    </NavigationContainer>
+
+}
+export default App;
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    }
+})
+.........................................................................................
+			Master Details Page- Screen to Screen with Rest api
+
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { StyleSheet, View, Text, Button, TouchableHighlight, FlatList, ActivityIndicator } from 'react-native'
+import { useState, useEffect } from "react";
+
+const Stack = createNativeStackNavigator();
+
+const Error = props => {
+    return <>
+        <Text>{props.error}</Text>
+    </>
+}
+const Spinner = props => {
+    return <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+        <ActivityIndicator size='large' color="#0000ff" />
+    </View>
+}
+const Posts = props => {
+    let initalState = {
+        isLoaded: false,
+        items: [],
+        error: null
+    }
+    const [posts, setPosts] = useState(initalState)
+
+    async function fetchPosts() {
+        try {
+            const url = 'https://jsonplaceholder.typicode.com/posts'
+            const values = await (await fetch(url)).json()
+            setPosts({ ...posts, isLoaded: true, items: posts.items.concat(values) })
+        }
+        catch (err) {
+            setPosts({ ...posts, isLoaded: true, error: err })
+        }
+    }
+    //useEffect : ComponentDidMount 
+    useEffect(() => {
+        fetchPosts()
+    }, [])
+
+    const onSelect = (item) => {
+        props.navigation.navigate('PostsDetails', item)
+    }
+
+    const { error, isLoaded, items } = posts
+    if (error) {
+        return <Error error={error} />
+    } else if (!isLoaded) {
+        return <Spinner />
+    } else {
+        return <FlatList
+            data={items}
+            keyExtractor={item => item.id}
+            renderItem={({ item }) => {
+                return <TouchableHighlight activeOpacity={0.4} underlayColor='yellow' onPress={() => { onSelect(item) }} >
+                    <View>
+                        <Text style={styles.item}>{item.title}</Text>
+                    </View>
+                </TouchableHighlight>
+            }}
+        />
+    }
+
+}
+const HomeScreen = props => {
+    const { navigation: { navigate } } = props
+    const onMove = () => {
+        navigate('Posts')
+    }
+    return <View style={styles.container}>
+        <Text style={{
+            fontSize: 40,
+        }}>Home Screen</Text>
+        <Button title="Posts" onPress={onMove} />
+    </View>
+}
+
+const PostScreen = props => {
+    return <>
+        <Posts navigation={props.navigation} />
+    </>
+}
+
+const PostsDetailScreen = props => {
+    const { title, body } = props.route.params
+    return <View style={styles.container}>
+        <Text style={{ fontSize: 25, color: 'blue' }}>{title}</Text>
+        <Text style={{ fontSize: 20, color: 'red' }}>{body}</Text>
+    </View>
+}
+
+const App = props => {
+    return <NavigationContainer>
+        <Stack.Navigator>
+            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="Posts" component={PostScreen} />
+            <Stack.Screen name="PostsDetails" component={PostsDetailScreen} />
+        </Stack.Navigator>
+    </NavigationContainer>
+}
+export default App;
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'lightblue',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    item: {
+        padding: 10,
+        fontSize: 18,
+        height: 44,
+        fontWeight: 'bold',
+        color: '#000'
+
+    },
+    text: {
+        fontSize: 30,
+        textAlign: 'center',
+        color: '#000'
+    }
+})
+..............................................................................................
+
+.....................................................................................				Configuring the Header Bar
+....................................................................................
+
+Header Title:
+ By default header title is name of the Route
+
+ <Stack.Screen name="Home" component={Home} />
+
+How to override the default Header title?
+
+   <Stack.Screen options={{title:'My Personal Diary'}} name="Home" component={Home} />
+
+How to update header dynamically based on some props?
+
+<Stack.Screen name="Profile" options={(navigation)=>{
+   return {
+	title:navigation.route.params.name || 'Your Header'
+   }
+}} component={Profile} />
+
+
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { StyleSheet, View, Text, Button, TouchableHighlight, FlatList, ActivityIndicator } from 'react-native'
+import { useState, useEffect } from "react";
+
+const Stack = createNativeStackNavigator();
+
+const Error = props => {
+    return <>
+        <Text>{props.error}</Text>
+    </>
+}
+const Spinner = props => {
+    return <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+        <ActivityIndicator size='large' color="#0000ff" />
+    </View>
+}
+const Posts = props => {
+    let initalState = {
+        isLoaded: false,
+        items: [],
+        error: null
+    }
+    const [posts, setPosts] = useState(initalState)
+
+    async function fetchPosts() {
+        try {
+            const url = 'https://jsonplaceholder.typicode.com/posts'
+            const values = await (await fetch(url)).json()
+            setPosts({ ...posts, isLoaded: true, items: posts.items.concat(values) })
+        }
+        catch (err) {
+            setPosts({ ...posts, isLoaded: true, error: err })
+        }
+    }
+    //useEffect : ComponentDidMount 
+    useEffect(() => {
+        fetchPosts()
+    }, [])
+
+    const onSelect = (item) => {
+        props.navigation.navigate('PostsDetails', item)
+    }
+
+    const { error, isLoaded, items } = posts
+    if (error) {
+        return <Error error={error} />
+    } else if (!isLoaded) {
+        return <Spinner />
+    } else {
+        return <FlatList
+            data={items}
+            keyExtractor={item => item.id}
+            renderItem={({ item }) => {
+                return <TouchableHighlight activeOpacity={0.4} underlayColor='yellow' onPress={() => { onSelect(item) }} >
+                    <View>
+                        <Text style={styles.item}>{item.title}</Text>
+                    </View>
+                </TouchableHighlight>
+            }}
+        />
+    }
+
+}
+const HomeScreen = props => {
+    const { navigation: { navigate } } = props
+    const onMove = () => {
+        navigate('Posts')
+    }
+    return <View style={styles.container}>
+        <Text style={{
+            fontSize: 40,
+        }}>Home Screen</Text>
+        <Button title="Posts" onPress={onMove} />
+    </View>
+}
+
+const PostScreen = props => {
+    return <>
+        <Posts navigation={props.navigation} />
+    </>
+}
+
+const PostsDetailScreen = props => {
+    const { title, body } = props.route.params
+    return <View style={styles.container}>
+        <Text style={{ fontSize: 25, color: 'blue' }}>{title}</Text>
+        <Text style={{ fontSize: 20, color: 'red' }}>{body}</Text>
+    </View>
+}
+
+const App = props => {
+    return <NavigationContainer>
+        <Stack.Navigator>
+            <Stack.Screen options={{ title: 'IBM Tech Blog' }} name="Home" component={HomeScreen} />
+            <Stack.Screen name="Posts" component={PostScreen} />
+            <Stack.Screen options={(navigation) => {
+                //return options Object
+                return {
+                    title:navigation.route.params.title || 'Profile Details'
+                }
+            }} name="PostsDetails" component={PostsDetailScreen} />
+        </Stack.Navigator>
+    </NavigationContainer>
+}
+export default App;
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'lightblue',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    item: {
+        padding: 10,
+        fontSize: 18,
+        height: 44,
+        fontWeight: 'bold',
+        color: '#000'
+
+    },
+    text: {
+        fontSize: 30,
+        textAlign: 'center',
+        color: '#000'
+    }
+})
+....................................................................................
+				Header styles
+....................................................................................
+
+
+There are three key properties to use when customizing the style of your header: headerStyle, headerTintColor, and headerTitleStyle.
+
+headerStyle: a style object that will be applied to the View that wraps the header. If you set backgroundColor on it, that will be the color of your header.
+
+headerTintColor: the back button and title both use this property as their color.
+
+headerTitleStyle: if we want to customize the fontFamily, fontWeight and other Text 
+Style properties for the title, we can use this to do it.
+
+....................................................................................
+				Header styles
+....................................................................................
+
+
+There are three key properties to use when customizing the style of your header: headerStyle, headerTintColor, and headerTitleStyle.
+
+headerStyle: a style object that will be applied to the View that wraps the header. If you set backgroundColor on it, that will be the color of your header.
+
+headerTintColor: the back button and title both use this property as their color.
+
+headerTitleStyle: if we want to customize the fontFamily, fontWeight and other Text 
+Style properties for the title, we can use this to do it.
+
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { StyleSheet, View, Text, Button, TouchableHighlight, FlatList, ActivityIndicator } from 'react-native'
+import { useState, useEffect } from "react";
+
+const Stack = createNativeStackNavigator();
+
+const Error = props => {
+    return <>
+        <Text>{props.error}</Text>
+    </>
+}
+const Spinner = props => {
+    return <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+        <ActivityIndicator size='large' color="#0000ff" />
+    </View>
+}
+
+const Posts = props => {
+    let initalState = {
+        isLoaded: false,
+        items: [],
+        error: null
+    }
+    const [posts, setPosts] = useState(initalState)
+
+    async function fetchPosts() {
+        try {
+            const url = 'https://jsonplaceholder.typicode.com/posts'
+            const values = await (await fetch(url)).json()
+            setPosts({ ...posts, isLoaded: true, items: posts.items.concat(values) })
+        }
+        catch (err) {
+            setPosts({ ...posts, isLoaded: true, error: err })
+        }
+    }
+    //useEffect : ComponentDidMount 
+    useEffect(() => {
+        setTimeout(() => {
+            fetchPosts()
+        }, 5000)
+    }, [])
+
+    const onSelect = (item) => {
+        props.navigation.navigate('PostsDetails', item)
+    }
+
+    const { error, isLoaded, items } = posts
+    if (error) {
+        return <Error error={error} />
+    } else if (!isLoaded) {
+        return <Spinner />
+    } else {
+        return <FlatList
+            data={items}
+            keyExtractor={item => item.id}
+            renderItem={({ item }) => {
+                return <TouchableHighlight activeOpacity={0.4} underlayColor='yellow' onPress={() => { onSelect(item) }} >
+                    <View>
+                        <Text style={styles.item}>{item.title}</Text>
+                    </View>
+                </TouchableHighlight>
+            }}
+        />
+    }
+
+}
+
+//Screens 
+//Screens 
+const HomeScreen = props => {
+    const { navigation: { navigate } } = props
+    const onMove = () => {
+        navigate('Posts')
+    }
+    return <View style={styles.container}>
+        <Text style={{
+            fontSize: 40,
+        }}>Home Screen</Text>
+        <Button title="Posts" onPress={onMove} />
+    </View>
+}
+
+const PostScreen = props => {
+    return <>
+        <Posts navigation={props.navigation} />
+    </>
+}
+
+const PostsDetailScreen = props => {
+    const { title, body } = props.route.params
+    return <View style={styles.container}>
+        <Text style={{ fontSize: 25, color: 'blue' }}>{title}</Text>
+        <Text style={{ fontSize: 20, color: 'red' }}>{body}</Text>
+    </View>
+}
+
+const App = props => {
+    return <NavigationContainer>
+        <Stack.Navigator>
+            <Stack.Screen options={{
+                title: 'MyHome', headerStyle: {
+                    backgroundColor: 'light blue'
+                }
+            }} name="Home" component={HomeScreen} />
+            <Stack.Screen name="Posts" component={PostScreen} />
+            <Stack.Screen options={(navigation) => {
+                //return options  object 
+                return {
+                    title: navigation.route.params.title || 'Profile Details',
+                    headerStyle: {
+                        backgroundColor: 'pink'
+                    },
+                    headerTintColor: 'blue',
+                    headerTitleStyle: {
+                        fontWeight: 'bold',
+                        fontFamily: 'fantasy'
+                    }
+                }
+
+            }} name="PostsDetails" component={PostsDetailScreen} />
+        </Stack.Navigator>
+    </NavigationContainer>
+}
+export default App;
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'lightblue',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    item: {
+        padding: 10,
+        fontSize: 18,
+        height: 44,
+        fontWeight: 'bold',
+        color: '#000'
+
+    },
+    text: {
+        fontSize: 30,
+        textAlign: 'center',
+        color: '#000'
+    }
+})
+..............................................................................................
+....................................................................................
+			 Screen Options vs options and Header Button
+....................................................................................
+
+Suppose i want to share common style for all screens,Screen options are used to set common styles for all screens.
+
+       <Stack.Navigator screenOptions={{
+            headerStyle: {
+                backgroundColor: '#f4511e'
+            },
+            headerTintColor: 'blue',
+            headerTitleStyle: {
+                fontWeight: 'bold'
+            }
+        }}>
+
+
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { StyleSheet, View, Text, Button, TouchableHighlight, FlatList, ActivityIndicator, Alert } from 'react-native'
+import { useState, useEffect } from "react";
+
+
+//create Stack Object
+const Stack = createNativeStackNavigator();
+
+
+const Error = props => {
+    return <>
+        <Text>{props.error}</Text>
+    </>
+}
+const Spinner = props => {
+    return <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+        <ActivityIndicator size='large' color="#0000ff" />
+    </View>
+}
+const Posts = props => {
+    let initalState = {
+        isLoaded: false,
+        items: [],
+        error: null
+    }
+    const [posts, setPosts] = useState(initalState)
+
+    console.log('Posts props')
+    console.log(props)
+
+    async function fetchPosts() {
+        try {
+            const url = 'https://jsonplaceholder.typicode.com/posts'
+            const values = await (await fetch(url)).json()
+            setPosts({ ...posts, isLoaded: true, items: posts.items.concat(values) })
+        }
+        catch (err) {
+            setPosts({ ...posts, isLoaded: true, error: err })
+        }
+    }
+    //useEffect : ComponentDidMount 
+    useEffect(() => {
+        setTimeout(() => {
+            fetchPosts()
+        }, 5000)
+    }, [])
+
+    const onSelect = (item) => {
+        props.navigation.navigate('PostsDetails', item)
+    }
+
+    const { error, isLoaded, items } = posts
+    if (error) {
+        return <Error error={error} />
+    } else if (!isLoaded) {
+        return <Spinner />
+    } else {
+        return <FlatList
+            data={items}
+            keyExtractor={item => item.id}
+            renderItem={({ item }) => {
+                return <TouchableHighlight activeOpacity={0.4} underlayColor='yellow' onPress={() => { onSelect(item) }} >
+                    <View>
+                        <Text style={styles.item}>{item.title}</Text>
+                    </View>
+                </TouchableHighlight>
+            }}
+        />
+    }
+
+}
+
+
+
+
+//Screens 
+const HomeScreen = props => {
+    // const { navigation: { navigate } } = props
+    // const onMove = () => {
+    //     navigate('Posts')
+    // }
+    return <View style={styles.container}>
+        <Text style={{
+            fontSize: 40,
+        }}>Home Screen</Text>
+        {/* <Button title="Posts" onPress={onMove} /> */}
+    </View>
+}
+const PostScreen = props => {
+    return <>
+        <Posts navigation={props.navigation} />
+    </>
+}
+
+const PostsDetailScreen = props => {
+
+    const { title, body } = props.route.params
+
+    return <View style={styles.container}>
+        <Text style={{ fontSize: 25, color: 'blue' }}>{title}</Text>
+        <Text style={{ fontSize: 20, color: 'red' }}>{body}</Text>
+    </View>
+}
+
+
+
+const App = props => {
+    return <NavigationContainer>
+        <Stack.Navigator screenOptions={{
+            headerStyle: {
+                backgroundColor: '#f4511e'
+            },
+            headerTintColor: 'blue',
+            headerTitleStyle: {
+                fontWeight: 'bold'
+            }
+        }}>
+            <Stack.Screen options={(navigation) => {
+                console.log('inside navigation')
+                console.log(navigation)
+                const onMove = () => {
+                    Alert.alert('clicked')
+                    //navigation.navigate('Posts')
+                }
+                return {
+                    title: 'My Posts App',
+                    headerRight: () => {
+                        return <Button title="Posts" onPress={onMove} />
+                    }
+                }
+            }} name="Home" component={HomeScreen} />
+            <Stack.Screen name="Posts" component={PostScreen} />
+            <Stack.Screen options={(navigation) => {
+                return {
+                    title: navigation.route.params.title || 'Your Blog',
+                    headerTintColor: 'blue',
+                    headerTitleStyle: {
+                        fontWeight: 'bold'
+                    }
+                }
+            }} name="PostsDetails" component={PostsDetailScreen} />
+        </Stack.Navigator>
+    </NavigationContainer>
+}
+
+
+export default App;
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'lightblue',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    item: {
+        padding: 10,
+        fontSize: 18,
+        height: 44,
+        fontWeight: 'bold',
+        color: '#000'
+
+    },
+    text: {
+        fontSize: 30,
+        textAlign: 'center',
+        color: '#000'
+    }
+})
+
+....................................................................................
+			  Tab Navigation
+...................................................................................
+
+Tab Naviation:
+
+Types of Tabs
+1.TopTab
+2.BottomTab
+3.MaterialBottomTab | MaterialTopTab
+
+npm i @react-navigation/material-top-tabs
+npm i @react-navigation/bottom-tabs
+npm i @react-navigation/material-bottom-tabs
+
+
+npm i react-native-pager-view
+
+import { NavigationContainer } from "@react-navigation/native";
+import { View, StyleSheet, Text } from 'react-native'
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+
+const Tab = createMaterialTopTabNavigator();
+
+const FeedScreen = () => {
+    return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>FeedScreen</Text>
+    </View>
+}
+const NotificationsScreen = () => {
+    return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>NotificationsScreen</Text>
+    </View>
+}
+const ProfileScreen = () => {
+    return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>ProfileScreen</Text>
+    </View>
+}
+function MyTabs() {
+    return <Tab.Navigator initialRouteName="Feed" screenOptions={{
+        tabBarActiveTintColor: '#e91e63',
+        tabBarLabelStyle: {
+            fontSize: 12,
+            fontWeight: 'bold',
+        },
+        tabBarStyle: {
+            backgroundColor: 'powderblue'
+        }
+    }}>
+        <Tab.Screen name="Feed" component={FeedScreen} />
+        <Tab.Screen name="Notifications" component={NotificationsScreen} />
+        <Tab.Screen name="Profile" component={ProfileScreen} />
+    </Tab.Navigator>
+}
+function App() {
+    return <NavigationContainer>
+        <MyTabs />
+    </NavigationContainer>
+}
+
+export default App;
+
+....................................................................................
+Material Bottom Tab Navigation:
+.....................................................................................
+
+import { NavigationContainer } from "@react-navigation/native";
+import { View, Text } from 'react-native'
+import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navigation';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
+
+const Tab = createMaterialBottomTabNavigator();
+
+const FeedScreen = () => {
+    return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>FeedScreen</Text>
+    </View>
+}
+const NotificationsScreen = () => {
+    return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>NotificationsScreen</Text>
+    </View>
+}
+const ProfileScreen = () => {
+    return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>ProfileScreen</Text>
+    </View>
+}
+
+function MyTabs() {
+    return (
+        <Tab.Navigator>
+            <Tab.Screen name="Feed" component={FeedScreen} options={{
+                tabBarLabel: 'Feed',
+                tabBarIcon: ({ color }) => (
+                    <MaterialCommunityIcons name="home" color={color} size={26} />
+                ),
+            }} />
+            <Tab.Screen name="Notification" component={NotificationsScreen} />
+            <Tab.Screen name="Profiles" component={ProfileScreen} />
+        </Tab.Navigator>
+    );
+}
+function App() {
+    return <SafeAreaProvider>
+        <NavigationContainer>
+            <MyTabs />
+        </NavigationContainer>
+    </SafeAreaProvider>
+}
+
+export default App;
+
+...........................................................................................
+				Tab + Stack
+............................................................................................
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { View, Text, StyleSheet, Button } from 'react-native';
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+const Tab = createMaterialTopTabNavigator();
+//create tab:
+const Stack = createNativeStackNavigator();
+
+const Messages = props => {
+    const { navigation } = props;
+    return <View style={styles.container}>
+        <Text>Messages Screen</Text>
+        <Button title="go to Settions" onPress={() => {
+            navigation.navigate('Settings')
+        }} />
+    </View>
+}
+const Feed = props => {
+    return <View style={styles.container}>
+        <Text>Feed Screen</Text>
+    </View>
+}
+const Settings = props => {
+    return <View style={styles.container}>
+        <Text>Settings Screen</Text>
+    </View>
+}
+const Home = props => {
+    return <Tab.Navigator>
+        <Tab.Screen name="Messages" component={Messages} />
+        <Tab.Screen name="Feed" component={Feed} />
+    </Tab.Navigator>
+}
+function App() {
+    return <NavigationContainer>
+        <Stack.Navigator>
+            <Stack.Screen
+                name="Home"
+                component={Home}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen name="Settings" component={Settings} />
+        </Stack.Navigator>
+    </NavigationContainer>
+
+}
+
+export default App;
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+});
+............................................................................................
+				Native Components
+............................................................................................
+Device specfic specific features
+.......................................................................................................
+React Native core does not have any component or api to talk with device features
+
+such as location,camera,network etc...
+
+We have to go with third party libs
+
+1.https://reactnative.directory/
+
+2.Expo Framework.
+
+Expo framwork offers most of the device specific components and apis.
+
+if you want to use expo components inside react native cli based projects are not stright forward.
+we need to lot of configuration.
+..............................................................................................
+			  Location and google Map integration
+..............................................................................................
+
+How to get gps location and show that in map?
+
+Steps:
+
+1.google map integration
+
+npm i react-native-maps
+npm i @react-native-community/geolocation
+
+2.Get Google map key
+Obtain a Google Maps API Key
+API Key
+AIzaSyCRE1CZ8UX6sWHqU9gpe3vOd4KNpCT7lb8
+
+3.Add android dependencies
+
+android/app/build.gradle
+
+dependencies {
+
+   implementation 'com.google.android.gms:play-services-maps:17.0.1'
+
+}
+
+4.AndroidManifest.xml
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+<application
+      android:name=".MainApplication"
+      android:label="@string/app_name"
+      android:icon="@mipmap/ic_launcher"
+      android:roundIcon="@mipmap/ic_launcher_round"
+      android:allowBackup="false"
+      android:theme="@style/AppTheme"
+      android:supportsRtl="true">
+
+      <meta-data
+      android:name="com.google.android.geo.API_KEY"
+      android:value="AIzaSyCRE1CZ8UX6sWHqU9gpe3vOd4KNpCT7lb8" />
+ 
+</application>
+
+5.Set lat and lng in emulator
+............................................................
+..............................................................................................
+			  Location and google Map integration
+..............................................................................................
+
+How to get gps location and show that in map?
+
+Steps:
+
+1.google map integration
+
+npm i react-native-maps
+npm i @react-native-community/geolocation
+
+2.Get Google map key
+Obtain a Google Maps API Key
+API Key
+AIzaSyCRE1CZ8UX6sWHqU9gpe3vOd4KNpCT7lb8
+
+3.Add android dependencies
+
+android/app/build.gradle
+
+dependencies {
+
+   implementation 'com.google.android.gms:play-services-maps:17.0.1'
+
+}
+
+4.AndroidManifest.xml
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+<application
+      android:name=".MainApplication"
+      android:label="@string/app_name"
+      android:icon="@mipmap/ic_launcher"
+      android:roundIcon="@mipmap/ic_launcher_round"
+      android:allowBackup="false"
+      android:theme="@style/AppTheme"
+      android:supportsRtl="true">
+
+      <meta-data
+      android:name="com.google.android.geo.API_KEY"
+      android:value="AIzaSyCRE1CZ8UX6sWHqU9gpe3vOd4KNpCT7lb8" />
+ 
+</application>
+
+5.Set lat and lng in emulator
+......
+6.code 
+import React, { useEffect, useState } from 'react';
+import { View, Text, Button, PermissionsAndroid, Platform } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
+import Geolocation from '@react-native-community/geolocation';
+
+function App() {
+    const [location, setLocation] = useState(null);
+
+    useEffect(() => {
+        if (Platform.OS === 'android') {
+            requestLocationPermission();
+        }
+        getCurrentLocation();
+    }, []);
+    // Function to get current location
+    const getCurrentLocation = () => {
+        Geolocation.getCurrentPosition((position) => {
+            setLocation(position.coords);
+        },
+            (error) => console.log(error),
+            { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+        );
+    };
+    // Request location permission for Android
+    const requestLocationPermission = async () => {
+        try {
+            const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+                {
+                    title: 'Location Permission',
+                    message: 'We need access to your location to show it on the map.',
+                    buttonNeutral: 'Ask Me Later',
+                    buttonNegative: 'Cancel',
+                    buttonPositive: 'OK',
+                }
+            );
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                console.log('Location permission granted');
+            } else {
+                console.log('Location permission denied');
+            }
+        } catch (err) {
+            console.warn(err);
+        }
+    };
+    return (
+        <View style={{ flex: 1 }}>
+            {location ? (
+                <MapView
+                    style={{ flex: 1 }}
+                    region={{
+                        latitude: location.latitude,
+                        longitude: location.longitude,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421,
+                    }}
+                >
+                    <Marker coordinate={location} title="Your Location" />
+                </MapView>
+            ) : (
+                <Text>Fetching location...</Text>
+            )}
+
+            <Button title="Get Location" onPress={getCurrentLocation} />
+        </View>
+    );
+}
+
+export default App;
+............................................................................................
+.......................................................................................................
+Camera:
+  Integrating the camera in React Native involves using libraries like react-native-vision-camera or react-native-camera. Here's a step-by-step guide to set up and test the camera in your React Native app, including how to handle testing on a simulator.
+
+1. Install the Camera Library
+The recommended library is react-native-vision-camera, as it is modern, well-maintained, and provides better performance.
+https://react-native-vision-camera.com/docs/guides
+
+npm i react-native-vision-camera
+
+
+2.AndroidManifest.xml
+<uses-permission android:name="android.permission.CAMERA" />
+
+import React, { useEffect } from 'react';
+import { StyleSheet, View, Text, Button, Alert } from 'react-native';
+import { Camera, useCameraDevice } from 'react-native-vision-camera';
+
+
+function App() {
+    const device = useCameraDevice('back')
+    useEffect(() => {
+        console.log('Available devices:', device);
+    }, [device]);
+    useEffect(() => {
+        const requestPermission = async () => {
+            const cameraPermission = await Camera.requestCameraPermission();
+            const microphonePermission = await Camera.requestMicrophonePermission();
+
+            if (cameraPermission !== 'authorized' || microphonePermission !== 'authorized') {
+                Alert.alert('Permission denied', 'Camera or Microphone permission is required.');
+            }
+        };
+
+        requestPermission();
+    }, []);
+    if (device == null) {
+        return <Text>Loading camera...</Text>;
+    }
+    return (
+        <View style={styles.container}>
+            <Camera
+                style={StyleSheet.absoluteFill}
+                device={device}
+                isActive={true}
+            />
+            <View style={styles.buttonContainer}>
+                <Button title="Capture" onPress={() => Alert.alert('Feature not implemented')} />
+            </View>
+        </View>
+    );
+}
+export default App;
+
+const styles = StyleSheet.create({
+    container: { flex: 1 },
+    buttonContainer: {
+        position: 'absolute',
+        bottom: 20,
+        alignSelf: 'center',
+        backgroundColor: 'white',
+        borderRadius: 10,
+        padding: 10,
+    },
+});
+
+..............................................................................................			     How to release app?
+
+
+How to release app?
+
+
+Publishing an APK file using React Native involves several steps. Here's a guide to help you through the process:
+
+1. Set Up Your Environment
+Ensure your project is properly set up for Android.
+
+Install necessary tools:
+Node.js
+Android Studio
+React Native CLI
+Run your app on an emulator or device using:
+
+bash
+Copy code
+react-native run-android
+
+
+2. Configure Your App for Release
+
+Update AndroidManifest.xml
+
+Open android/app/src/main/AndroidManifest.xml.
+
+Check and update the <application> tag for the release mode:
+
+xml
+
+<application
+    android:allowBackup="true"
+    android:label="YourAppName"
+    android:icon="@mipmap/ic_launcher"
+    android:roundIcon="@mipmap/ic_launcher_round"
+    android:supportsRtl="true"
+    android:theme="@style/AppTheme">
+
+
+Set Up Signing Key
+Generate a keystore:
+
+
+keytool -genkey -v -keystore your-release-key.keystore -keyalg RSA -keysize 2048 -validity 10000 -alias your-key-alias
+
+Follow the prompts to set up the keystore password and alias.
+Save the your-release-key.keystore file in the android/app directory.
+
+Configure gradle.properties
+Add the signing details to android/gradle.properties:
+
+Copy code
+MYAPP_RELEASE_STORE_FILE=your-release-key.keystore
+MYAPP_RELEASE_KEY_ALIAS=your-key-alias
+MYAPP_RELEASE_STORE_PASSWORD=your-store-password
+MYAPP_RELEASE_KEY_PASSWORD=your-key-password
+
+
+Configure build.gradle
+Update android/app/build.gradle:
+
+Copy code
+android {
+    ...
+    signingConfigs {
+        release {
+            storeFile file(MYAPP_RELEASE_STORE_FILE)
+            storePassword MYAPP_RELEASE_STORE_PASSWORD
+            keyAlias MYAPP_RELEASE_KEY_ALIAS
+            keyPassword MYAPP_RELEASE_KEY_PASSWORD
+        }
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false // Disable minification if debugging is needed
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+3. Build the APK
+Run the following command in your project directory:
+
+bash
+Copy code
+cd android
+./gradlew assembleRelease
+This generates the APK at:
+
+arduino
+Copy code
+android/app/build/outputs/apk/release/app-release.apk
+4. Test the APK
+Transfer the APK file to a physical Android device and install it to ensure it works as expected.
+
+
+5. Publish Your App
+Google Play Store
+Create a Google Play Developer Account:
+
+Sign up at Google Play Console.
+Prepare Your Store Listing:
+
+Add app details, screenshots, and promotional assets.
+Upload Your APK:
+
+Navigate to "Release Management" > "App Releases".
+Select "Production Track" and upload your APK.
+Review and Publish:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

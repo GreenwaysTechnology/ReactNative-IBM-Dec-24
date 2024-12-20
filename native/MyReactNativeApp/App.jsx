@@ -1,41 +1,51 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Alert } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet, View, Text, Button, Alert } from 'react-native';
+import { Camera, useCameraDevice } from 'react-native-vision-camera';
 
-const TextInputComponent = () => {
-    const [text, setText] = useState('Welcome')
-    const [number, onChangeNumber] = useState(0)
 
-    return <View>
-        <TextInput style={styles.input} value={text} onChangeText={setText} />
-        <Button title='Show Text' onPress={() => {
-            Alert.alert(text)
-        }} />
-        <TextInput keyboardType="numeric" style={styles.input} value={number} onChangeText={onChangeNumber} />
-        <Button title='Show Number' onPress={() => {
-            let a = 100
-            let result = a * parseInt(number)
-            Alert.alert(result.toString())
-        }} />
-    </View>
+function App() {
+    const device = useCameraDevice('back')
+    useEffect(() => {
+        console.log('Available devices:', device);
+    }, [device]);
+    useEffect(() => {
+        const requestPermission = async () => {
+            const cameraPermission = await Camera.requestCameraPermission();
+            const microphonePermission = await Camera.requestMicrophonePermission();
+
+            if (cameraPermission !== 'authorized' || microphonePermission !== 'authorized') {
+                Alert.alert('Permission denied', 'Camera or Microphone permission is required.');
+            }
+        };
+
+        requestPermission();
+    }, []);
+    if (device == null) {
+        return <Text>Loading camera...</Text>;
+    }
+    return (
+        <View style={styles.container}>
+            <Camera
+                style={StyleSheet.absoluteFill}
+                device={device}
+                isActive={true}
+            />
+            <View style={styles.buttonContainer}>
+                <Button title="Capture" onPress={() => Alert.alert('Feature not implemented')} />
+            </View>
+        </View>
+    );
 }
-
-const App = () => (
-    <View style={styles.container}>
-        <TextInputComponent />
-    </View>
-);
+export default App;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: 'pink'
+    container: { flex: 1 },
+    buttonContainer: {
+        position: 'absolute',
+        bottom: 20,
+        alignSelf: 'center',
+        backgroundColor: 'white',
+        borderRadius: 10,
+        padding: 10,
     },
-    input: {
-        height: 40,
-        margin: 12,
-        borderWidth: 1,
-        padding: 10
-    }
 });
-
-export default App;

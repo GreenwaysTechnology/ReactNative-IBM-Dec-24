@@ -2720,7 +2720,7 @@ export default function App() {
     return <Parent />
 }
 ..........................................................................................
-				 API Calls in Reac				 
+				 API Calls in React				 
 
 
 import React from 'react'
